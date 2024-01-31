@@ -29,6 +29,7 @@ const Login = () => {
 
     // Aquí puedes agregar la lógica de inicio de sesión
     console.log('Usuario intentando iniciar sesión...');
+    
   };
 
   return (

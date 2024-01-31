@@ -36,19 +36,40 @@ const Register = () => {
         setTermsAccepted(!termsAccepted);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Aquí puedes agregar la lógica para enviar los datos al servidor o hacer cualquier acción que necesites.
-        console.log('Datos de registro enviados:', {
+    
+        const data = {
             fullName,
             email,
             password,
             address,
             phone,
             termsAccepted,
-        });
+        };
+    
+        try {
+            const response = await fetch('http://localhost:3000/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            if (response.ok) {
+                console.log('Datos de registro enviados correctamente');
+                // Aquí puedes agregar cualquier lógica adicional después de enviar los datos
+            } else {
+                console.error('Error al enviar los datos:', response.statusText);
+                // Manejo de errores si es necesario
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos:', error.message);
+            // Manejo de errores si es necesario
+        }
     };
+    
 
     return (
         <>

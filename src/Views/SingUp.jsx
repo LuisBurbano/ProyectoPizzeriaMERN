@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from "../components/Footer"
 
 const Register = () => {
     const [fullName, setFullName] = useState('');
@@ -53,7 +54,7 @@ const Register = () => {
     return (
         <>
         <Navbar/>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: '', height: '90vh' ,margin: 'px'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: '', height: '90vh' ,margin: '20px'}}>
             <Grid container style={{ width: '70%', maxWidth: '850px', backgroundColor: '#ffffff', borderRadius: '10px', padding: '0px' }}>
                 {/* Primera mitad para la imagen */}
                 <Grid item xs={12} sm={6}>
@@ -137,6 +138,7 @@ const Register = () => {
                 </Grid>
             </Grid>
         </div>
+        <Footer/>
         </>
     );
 };

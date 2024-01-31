@@ -9,6 +9,7 @@ const NewProduct = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [quantity, setQuantity] = useState('');
 
   // Function for handling form submission
   const handleSubmit = (e) => {
@@ -54,8 +55,9 @@ const NewProduct = () => {
                 label="Categoría"
                 onChange={(e) => setCategory(e.target.value)}
               >
+                <MenuItem value="Favoritos">Favoritos</MenuItem>
                 <MenuItem value="Promociones">Promociones</MenuItem>
-                {/* Add more categories here */}
+                <MenuItem value="Especiales">Especiales</MenuItem>
               </Select>
               <FormHelperText>Selecciona la categoría del producto</FormHelperText>
             </FormControl>
@@ -74,7 +76,16 @@ const NewProduct = () => {
               placeholder="Descripción del producto"
               fullWidth
               multiline
-              rows={4}
+              rows={3}
+              sx={{ mb: 2 }}
+            />
+            <Input
+              id="quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              placeholder="Existencias"
+              fullWidth
+              type="number"
               sx={{ mb: 2 }}
             />
             <Input

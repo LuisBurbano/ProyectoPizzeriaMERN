@@ -1,5 +1,8 @@
 import React from 'react';
+import SignIn from "../Views/SingIn"
+import miImagen from "../assets/LogoPizzeria.png";
 import { AppBar, Toolbar, Typography, Button, styled } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 // Estilos personalizados para el AppBar
 const TransparentAppBar = styled(AppBar)({
@@ -19,17 +22,21 @@ const Navbar = () => {
       <Toolbar>
         {/* Logo a la izquierda */}
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          MiLogo
+          <img src={miImagen} alt="Mi Imagen" style={{ width: '10%', height: 'auto' }} />
         </Typography>
         {/* Botones de navegación */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Button color="inherit">Inicio</Button>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Button color="inherit">Inicio</Button>
+          </Link>
           <Button color="inherit">Menu</Button>
           <Button color="inherit">Trabaja con Nosotros</Button>
           <Button color="inherit">Locales</Button>
         </Typography>
         {/* Botón de iniciar sesión con estilo de color */}
-        <RedButton variant="contained">Iniciar Sesión</RedButton>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <RedButton variant="contained">Iniciar Sesión</RedButton>
+        </Link>
       </Toolbar>
     </TransparentAppBar>
   );

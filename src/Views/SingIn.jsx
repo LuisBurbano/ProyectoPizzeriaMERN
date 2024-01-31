@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { TextField, Button, Typography, Grid, styled, IconButton } from '@mui/material';
+import { TextField, Button, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Footer from "../components/Footer"
-
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +17,7 @@ const Login = () => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (email.trim() === '' || password.trim() === '') {
@@ -28,9 +27,29 @@ const Login = () => {
 
     setError('');
 
-    // Aquí puedes agregar la lógica de inicio de sesión
-    console.log('Usuario intentando iniciar sesión...');
-    
+    // Función asíncrona para manejar la solicitud de inicio de sesión
+    const handleLogin = async () => {
+      try {
+        // Realizar una solicitud GET al servidor para obtener el usuario por correo electrónico
+        const response = await fetch(`http://localhost:3000/user/email/${email}`);
+        const userData = await response.json();
+
+        // Verificar si se encontró un usuario y si la contraseña coincide
+        if (!userData || userData.password !== password) {
+          setError('Correo electrónico o contraseña incorrectos');
+          return;
+        }
+
+        // Si se encuentra el usuario y la contraseña coincide, redirigir al usuario a la página de sistema
+        window.location.href = '/system';
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        setError('Error al intentar iniciar sesión');
+      }
+    };
+
+    // Llamar a la función handleLogin
+    handleLogin();
   };
 
   return (
@@ -71,18 +90,19 @@ const Login = () => {
                 margin="normal"
               />
 
-              <Link to="/system" style={{ textDecoration: 'none' }}>
+              
                 <Button type="submit" variant="contained" color='error' fullWidth style={{ marginTop: '20px' }}>
                   Iniciar sesión
                 </Button>
-              </Link>
-              <Typography variant="body2" align="center" style={{ marginTop: '10px' }}>
+              
+             
+            </form>
+            <Typography variant="body2" align="center" style={{ marginTop: '10px' }}>
                 ¿No tienes una cuenta? {' '}
                 <Link to="/register" style={{ textDecoration: 'none' }}>
                   Crear cuenta
                 </Link>
               </Typography>
-            </form>
           </Grid>
         </Grid>
       </div>

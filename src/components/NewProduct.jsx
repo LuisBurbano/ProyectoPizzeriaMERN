@@ -5,16 +5,44 @@ import VerticalNavbar from "./VerticalNavbar";
 const NewProduct = () => {
   // State for form fields
   const [image, setImage] = useState(null);
-  const [category, setCategory] = useState('Promociones');
+  const [category, setCategory] = useState('Favoritos');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
 
   // Function for handling form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
+  const handleSubmit = async (event) => {
+
+    event.preventDefault();
+    const data = {
+      category,
+      title,
+      description,
+      price,
+      quantity,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log('Datos de registro enviados correctamente');
+        // Aquí puedes agregar cualquier lógica adicional después de enviar los datos
+      } else {
+        console.error('Error al enviar los datos:', response.statusText);
+        // Manejo de errores si es necesario
+      }
+    } catch (error) {
+      console.error('Error al enviar los datos:', error.message);
+      // Manejo de errores si es necesario
+    }
   };
 
   // Function for handling image upload

@@ -18,12 +18,13 @@ const Inventory = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100vh',
+          height: '68vh',
+          
         }}
       >
         <Card sx={{ minWidth: 300, width: '70%' }}>
           <CardContent>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h5" gutterBottom>
               Inventario de Productos
             </Typography>
             <TableContainer component={Paper}>

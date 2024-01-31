@@ -1,6 +1,6 @@
-import VerticalNavbar from "./VerticalNavbar"
 import React, { useState } from 'react';
-import { Box, Button, Card, CardContent, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, Grid, Input, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import VerticalNavbar from "./VerticalNavbar";
 
 const NewProduct = () => {
   // State for form fields
@@ -24,78 +24,74 @@ const NewProduct = () => {
   return (
     <>
       <VerticalNavbar />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        sx={{ height: '90vh' }}
       >
-        <Card sx={{ minWidth: 300, width: '50%' }}>
-          <CardContent>
+        <Grid item xs={12} sm={8} md={6} lg={4}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ width: '100%', p: 3, bgcolor: 'background.paper', borderRadius: 3 }}
+          >
             <Typography variant="h5" gutterBottom>
               Nuevo Producto
             </Typography>
-            <form onSubmit={handleSubmit} sx={{ width: '100%' }}>
-              <Box sx={{ mb: 2 }}>
-                <Input type="file" accept="image/png, image/jpeg" onChange={handleImageChange} />
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="category-label">Categoría</InputLabel>
-                  <Select
-                    labelId="category-label"
-                    id="category"
-                    value={category}
-                    label="Categoría"
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    <MenuItem value="Promociones">Promociones</MenuItem>
-                    {/* Add more categories here */}
-                  </Select>
-                  <FormHelperText>Selecciona la categoría del producto</FormHelperText>
-                </FormControl>
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <Input
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Título del producto"
-                  fullWidth
-                />
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <Input
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Descripción del producto"
-                  fullWidth
-                  multiline
-                  rows={4}
-                />
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <Input
-                  id="price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Precio"
-                  fullWidth
-                  type="number"
-                />
-              </Box>
-              <Box sx={{ mb: 2 }}>
-                <Button type="submit" variant="contained" color="primary" fullWidth>
-                  GUARDAR PRODUCTO
-                </Button>
-              </Box>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={handleImageChange}
+              style={{ marginBottom: '1rem' }}
+            />
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel id="category-label">Categoría</InputLabel>
+              <Select
+                labelId="category-label"
+                id="category"
+                value={category}
+                label="Categoría"
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <MenuItem value="Promociones">Promociones</MenuItem>
+                {/* Add more categories here */}
+              </Select>
+              <FormHelperText>Selecciona la categoría del producto</FormHelperText>
+            </FormControl>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Título del producto"
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+            <Input
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Descripción del producto"
+              fullWidth
+              multiline
+              rows={4}
+              sx={{ mb: 2 }}
+            />
+            <Input
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Precio"
+              fullWidth
+              type="number"
+              sx={{ mb: 2 }}
+            />
+            <Button type="submit" variant="contained" color="error" fullWidth style={{ marginTop: '20px' }}>
+              GUARDAR PRODUCTOS
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 };

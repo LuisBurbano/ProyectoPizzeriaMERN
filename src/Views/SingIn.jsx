@@ -39,7 +39,6 @@ const Login = () => {
         <Grid container style={{ width: '70%', maxWidth: '850px', backgroundColor: '#ffffff', borderRadius: '10px', padding: '0px', position: 'relative' }}>
           {/* Primera mitad para la imagen */}
           <Grid item xs={12} sm={6}>
-            {/* Aquí puedes colocar tu componente de imagen */}
             <div style={{ backgroundImage: "url('../src/assets/inicio de sesión.jpg')", backgroundSize: 'cover', height: '100%' }}></div>
           </Grid>
           {/* Segunda mitad para el formulario de inicio de sesión */}

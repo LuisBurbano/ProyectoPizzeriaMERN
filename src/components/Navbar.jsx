@@ -21,13 +21,13 @@ const Navbar = () => {
     <TransparentAppBar position="static">
       <Toolbar>
         {/* Logo a la izquierda */}
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          <img src={miImagen} alt="Mi Imagen" style={{ width: '10%', height: 'auto' }} />
-        </Typography>
+        
+          <img src={miImagen} alt="Mi Imagen" style={{ width: '6%', height: 'auto' }} />
+        
         {/* Botones de navegación */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button color="inherit">Inicio</Button>
+            <Button  variant="contained" color='error' >Inicio</Button>
           </Link>
           <Button color="inherit">Menu</Button>
           <Button color="inherit">Trabaja con Nosotros</Button>
@@ -35,7 +35,7 @@ const Navbar = () => {
         </Typography>
         {/* Botón de iniciar sesión con estilo de color */}
         <Link to="/login" style={{ textDecoration: 'none' }}>
-          <RedButton variant="contained">Iniciar Sesión</RedButton>
+          <Button variant="contained" color='error'>Iniciar Sesión</Button>
         </Link>
       </Toolbar>
     </TransparentAppBar>

@@ -23,17 +23,17 @@ const VerticalNavbar = () => {
         <LogoImg src={Logo} alt="Mi Imagen" />
         <List>
           <ListItem>
-            <Link to="/system/new-product" >
+            <Link to="/system/new-product" style={{ textDecoration: 'none', color: 'inherit' }}>
               <Button color="inherit">Nuevo Producto</Button>
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/system/inventory" >
-              <Button color="inherit">Inventario</Button>
+            <Link to="/system/inventory" style={{ textDecoration: 'none', color: 'inherit' }} >
+              <Button color="inherit" >Inventario</Button>
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/" >
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }} >
               <Button color="inherit">Regresar</Button>
             </Link>
           </ListItem>

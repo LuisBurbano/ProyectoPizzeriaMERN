@@ -23,12 +23,12 @@ const VerticalNavbar = () => {
         <LogoImg src={Logo} alt="Mi Imagen" />
         <List>
           <ListItem>
-            <Link to="/" >
+            <Link to="/system/new-product" >
               <Button color="inherit">Nuevo Producto</Button>
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/" >
+            <Link to="/system/inventory" >
               <Button color="inherit">Inventario</Button>
             </Link>
           </ListItem>

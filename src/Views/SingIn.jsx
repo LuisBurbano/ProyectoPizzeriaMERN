@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { TextField, Button, Typography, Grid, styled, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Home } from '@mui/icons-material'; // Importamos el icono de casa
+import Footer from "../components/Footer"
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -85,6 +86,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </div>
+      <Footer />
     </>
   );
 };

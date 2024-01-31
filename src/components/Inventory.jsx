@@ -19,7 +19,6 @@ const Inventory = () => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '68vh',
-          
         }}
       >
         <Card sx={{ minWidth: 300, width: '70%' }}>

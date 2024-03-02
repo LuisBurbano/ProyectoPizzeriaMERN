@@ -21,16 +21,20 @@ const Navbar = () => {
     <TransparentAppBar position="static">
       <Toolbar>
         {/* Logo a la izquierda */}
-        
-          <img src={miImagen} alt="Mi Imagen" style={{ width: '6%', height: 'auto' }} />
-        
+
+        <img src={miImagen} alt="Mi Imagen" style={{ width: '6%', height: 'auto' }} />
+
         {/* Botones de navegación */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button  variant="contained" color='error' >Inicio</Button>
+            <Button variant="contained" color='error' >Inicio</Button>
           </Link>
-          <Button color="inherit">Menu</Button>
-          <Button color="inherit">Trabaja con Nosotros</Button>
+          <Link to="/menu" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Button color="inherit">Menu</Button>
+          </Link>
+          <Link to="/work-with-us" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Button color="inherit"   >Trabaja con Nosotros</Button>
+          </Link>
           <Button color="inherit">Locales</Button>
         </Typography>
         {/* Botón de iniciar sesión con estilo de color */}

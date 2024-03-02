@@ -7,6 +7,7 @@ import SingUp from './pages/SingUp.jsx'
 import System from './pages/System.jsx'
 import Ingredients from './pages/Ingredients.jsx'
 import Inventory from './pages/Inventory.jsx'
+import MenuInventory from './pages/MenuInventory.jsx'
 import NewProduct from './pages/NewProduct.jsx'
 import NewMenu from './pages/NewMenu.jsx'
 import WorkWithUs from './pages/WorkWithUs.jsx'
@@ -28,6 +29,7 @@ function App() {
         <Route path="/system" element={<System />} />
         <Route path="/system/ingredients" element={<Ingredients/>} />
         <Route path="/system/inventory" element={<Inventory/>} />
+        <Route path="/system/menu-inventory" element={<MenuInventory/>} />
         <Route path="/system/new-product" element={<NewProduct/>} />
         <Route path="/system/new-menu" element={<NewMenu/>} />
       </Routes>

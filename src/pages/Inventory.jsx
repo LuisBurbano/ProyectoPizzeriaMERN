@@ -76,6 +76,7 @@ const Inventory = () => {
       <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
         <b>Inventario de Productos</b>
       </Typography>
+      
       <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
         <Grid item xs={12} sm={8} md={6} lg={4}>
           <Card sx={{ minWidth: 1250, width: '100%' }}>
@@ -99,7 +100,7 @@ const Inventory = () => {
                       <TableCell align="right">{product.quantity}</TableCell>
                       <TableCell align="right">{product.price}</TableCell>
                       <TableCell align="center">
-                        <Button variant="outlined" color="error" onClick={() => handleDelete(product.id)}>Eliminar</Button>
+                        <Button sx={{marginRight:1}} variant="outlined" color="error" onClick={() => handleDelete(product.id)}>Eliminar</Button>
                         <Button variant="outlined" color="primary" onClick={() => handleEdit(product.id, product.title, product.quantity, product.price)}>Editar</Button>
                       </TableCell>
                     </TableRow>
@@ -141,6 +142,7 @@ const Inventory = () => {
             value={editProductTitle}
             onChange={(e) => setEditProductTitle(e.target.value)}
             margin="normal"
+            required
           />
           <TextField
             label="Existencias"
@@ -150,6 +152,7 @@ const Inventory = () => {
             value={editProductQuantity}
             onChange={(e) => setEditProductQuantity(e.target.value)}
             margin="normal"
+            required
           />
           <TextField
             label="Precio"
@@ -159,8 +162,9 @@ const Inventory = () => {
             value={editProductPrice}
             onChange={(e) => setEditProductPrice(e.target.value)}
             margin="normal"
+            required
           />
-          <Button variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
+          <Button sx={{marginRight:2}} variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
           <Button variant="contained" color="error" onClick={handleCloseModal}>Cancelar</Button>
         </Box>
       </Modal>

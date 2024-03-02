@@ -34,7 +34,7 @@ const VerticalNavbar = () => {
           </ListItem>
           <ListItem>
             <Link to="/system/new-menu" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Button color="inherit">Nuevo menu</Button>
+              <Button color="inherit">Nuevo menú</Button>
             </Link>
           </ListItem>
           <ListItem>
@@ -42,6 +42,12 @@ const VerticalNavbar = () => {
               <Button color="inherit" >Inventario</Button>
             </Link>
           </ListItem>
+          <ListItem>
+            <Link to="/system/menu-inventory" style={{ textDecoration: 'none', color: 'inherit' }} >
+              <Button color="inherit" >Menús</Button>
+            </Link>
+          </ListItem>
+
           <ListItem>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }} >
               <Button color="inherit">Regresar</Button>

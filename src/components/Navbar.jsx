@@ -1,5 +1,5 @@
 import React from 'react';
-import SignIn from "../Views/SingIn"
+import SignIn from "../pages/SingIn"
 import miImagen from "../assets/LogoPizzeria.png";
 import { AppBar, Toolbar, Typography, Button, styled } from '@mui/material';
 import { Link } from 'react-router-dom';

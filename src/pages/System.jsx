@@ -1,8 +1,8 @@
 
 import Footer from "../components/Footer"
 import VerticalNavbar from "../components/VerticalNavbar"
-import Inventory from "../components/Inventory"
-import NewProduct from "../components/NewProduct"
+import Inventory from "./Inventory"
+import NewProduct from "./NewProduct"
 
 
 const System = () => {

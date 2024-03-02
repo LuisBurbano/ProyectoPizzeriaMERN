@@ -13,8 +13,7 @@ const Index = () => {
         <>
             <Navbar />
             <img src={miImagen} alt="Mi Imagen" style={{ width: '100%', height: 'auto' }} />
-            <img src={miImagen3} alt="Mi Imagen" style={{ width: '100%', height: 'auto' }} /> <br />
-            <img src={miImagen2} alt="Mi Imagen" style={{ width: '100%', height: 'auto' }} />
+            
             <Footer />
         </>
     )

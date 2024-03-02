@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, FormControl, FormHelperText, Grid, Input, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import VerticalNavbar from "./VerticalNavbar";
+import VerticalNavbar from "../components/VerticalNavbar";
 
 const NewProduct = () => {
   // State for form fields
@@ -13,7 +13,6 @@ const NewProduct = () => {
 
   // Function for handling form submission
   const handleSubmit = async (event) => {
-
     event.preventDefault();
     const data = {
       category,
@@ -24,12 +23,13 @@ const NewProduct = () => {
     };
 
     try {
+      const formData = new FormData();
+      formData.append('image', image);
+      formData.append('data', JSON.stringify(data));
+
       const response = await fetch('http://localhost:3000/product', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (response.ok) {
@@ -50,45 +50,60 @@ const NewProduct = () => {
     setImage(e.target.files[0]);
   };
 
+  // Function for handling drag and drop
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile) {
+      setImage(droppedFile);
+    }
+  };
+
   return (
     <>
       <VerticalNavbar />
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ height: '90vh' }}
-      >
+      <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
+        <b>Nuevo Producto</b>
+      </Typography>
+      <Grid alignItems="center" sx={{ position: 'absolute', top: 90, left: 225 }} >
         <Grid item xs={12} sm={8} md={6} lg={4}>
           <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ width: '100%', p: 3, bgcolor: 'background.paper', borderRadius: 3 }}
+            sx={{ width: '44%', p: 3, bgcolor: 'background.paper', borderRadius: 7 }}
+            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
           >
-            <Typography variant="h5" gutterBottom>
-              Nuevo Producto
-            </Typography>
-            <input
-              type="file"
-              accept="image/png, image/jpeg"
-              onChange={handleImageChange}
-              style={{ marginBottom: '1rem' }}
-            />
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel id="category-label">Categoría</InputLabel>
-              <Select
-                labelId="category-label"
-                id="category"
-                value={category}
-                label="Categoría"
-                onChange={(e) => setCategory(e.target.value)}
+            
+            <label htmlFor="file-input">
+              <div
+                style={{
+                  border: '2px dashed #ccc',
+                  borderRadius: '6px',
+                  padding: '1rem',
+                  marginBottom: '1rem',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                }}
               >
-                <MenuItem value="Favoritos">Favoritos</MenuItem>
-                <MenuItem value="Promociones">Promociones</MenuItem>
-                <MenuItem value="Especiales">Especiales</MenuItem>
-              </Select>
-              <FormHelperText>Selecciona la categoría del producto</FormHelperText>
-            </FormControl>
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+                {image ? (
+                  <Typography variant="body1">{image.name}</Typography>
+                ) : (
+                  <>
+                    <Typography variant="body1">Haz clic para seleccionar un archivo o arrastra y suelta un archivo aquí</Typography>
+                    <Typography variant="body2" style={{ opacity: 0.6 }} >PNG o JPG (máx. 5MB)</Typography>
+                  </>
+                )}
+              </div>
+            </label>
+            
             <Input
               id="title"
               value={title}
@@ -126,7 +141,7 @@ const NewProduct = () => {
               sx={{ mb: 2 }}
             />
             <Button type="submit" variant="contained" color="error" fullWidth style={{ marginTop: '20px' }}>
-              GUARDAR PRODUCTOS
+              GUARDAR PRODUCTO
             </Button>
           </Box>
         </Grid>

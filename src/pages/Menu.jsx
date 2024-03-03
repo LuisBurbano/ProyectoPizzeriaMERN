@@ -1,8 +1,10 @@
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
-import miImagen1 from "../assets/Group 2.png";
-import miImagen2 from "../assets/Group 1.jpg";
+import MenuCard from "../components/MenuCard";
+import Favoritos from "../assets/Favoritos.png";
+import Promociones from "../assets/Promociones.png";
+import Especiales from "../assets/Especiales.png";
 
 
 const Index = () => {
@@ -10,9 +12,14 @@ const Index = () => {
     return (
         <>
             <Navbar />
-            <img src={miImagen1} alt="Mi Imagen2" style={{ width: '100%', height: 'auto' }} />
-            <img src={miImagen2} alt="Mi Imagen2" style={{ width: '100%', height: 'auto' }} />
+            <img src={Favoritos} alt="" style={{ width: '100%', height: 'auto' }} />
+            <MenuCard />
+            <img src={Promociones} alt="" style={{ width: '100%', height: 'auto' }} />
+            <MenuCard />
+            <img src={Especiales} alt="" style={{ width: '100%', height: 'auto' }} />
+            <MenuCard />
             <Footer />
+
         </>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, Grid, Input, InputLabel, MenuItem, Select, Typography, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import VerticalNavbar from "../components/VerticalNavbar";
+import VerticalNavbar from "../../components/VerticalNavbar";
 
 const NewMenu = () => {
     const [image, setImage] = useState(null);
@@ -105,8 +105,10 @@ const NewMenu = () => {
     };
 
     return (
-        <>
+        <> 
+        
             <VerticalNavbar />
+            <Box sx={{ position: 'relative', marginTop: 2 }}>
             <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
                 <b>Nuevo Menú</b>
             </Typography>
@@ -276,6 +278,7 @@ const NewMenu = () => {
                     </TableContainer>
                 </Grid>
             </Grid>
+        </Box>
         </>
     );
 };

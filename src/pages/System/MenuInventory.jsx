@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Button, TextField, Modal, Grid } from '@mui/material';
-import VerticalNavbar from "../components/VerticalNavbar";
+import VerticalNavbar from "../../components/VerticalNavbar";
 import axios from 'axios';
 
 const MenuInventory = () => {
@@ -73,10 +73,10 @@ const MenuInventory = () => {
   return (
     <>
       <VerticalNavbar />
+      <Box sx={{ position: 'relative', marginTop: 2 }}>
       <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
         <b>Inventario de Menús</b>
       </Typography>
-      
       <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
         <Grid item xs={12} sm={8} md={6} lg={4}>
           <Card sx={{ minWidth: 1250, width: '100%' }}>
@@ -100,8 +100,8 @@ const MenuInventory = () => {
                       <TableCell>{menu.description}</TableCell>
                       <TableCell align="right">{menu.price}</TableCell>
                       <TableCell align="center">
-                        <Button sx={{marginRight:1}} variant="outlined" color="error" onClick={() => handleDelete(menu.id)}>Eliminar</Button>
-                        <Button variant="outlined" color="primary" onClick={() => handleEdit(menu.id, menu.name, menu.description, menu.price)}>Editar</Button>
+                        <Button sx={{marginRight:1}} variant="contained" color="error" onClick={() => handleDelete(menu.id)}>Eliminar</Button>
+                        <Button variant="contained" color="primary" onClick={() => handleEdit(menu.id, menu.name, menu.description, menu.price)}>Editar</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -112,7 +112,7 @@ const MenuInventory = () => {
         </Card>
         </Grid>
       </Grid>
-
+      </Box>
       <Modal
         open={openModal}
         onClose={handleCloseModal}

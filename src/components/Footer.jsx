@@ -17,10 +17,18 @@ const Footer = () => {
         {/* Sección de "Nosotros" */}
         <Grid item xs={12} sm={6} md={3}>
           <Box display="flex" flexDirection="column" alignItems="left">
-            <Typography variant="h6" gutterBottom fontWeight="bold">Nosotros</Typography>
-            <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Información Legal</Link>
-            <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Términos y Condiciones</Link>
-            <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Política de Privacidad</Link>
+            <Typography variant="h5" gutterBottom fontWeight="bold">Nosotros</Typography>
+            <Typography>
+              <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Información Legal</Link>
+            </Typography>
+
+            <Typography>
+              <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Términos y Condiciones</Link>
+            </Typography>
+
+            <Typography>
+              <Link href="#" color="inherit" style={{ marginBottom: '10px', textDecoration: 'none' }}>Política de Privacidad</Link>
+            </Typography>
           </Box>
         </Grid>
 
@@ -28,9 +36,9 @@ const Footer = () => {
         <Grid item xs={12} sm={6} md={3}>
           <Box display="flex" flexDirection="column" alignItems="left ">
             <Typography variant="h6" gutterBottom fontWeight="bold">Redes sociales</Typography>
-            <Link href="https://www.instagram.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Instagram sx={{ fontSize: 28 }}/>  </Link>
-            <Link href="https://www.facebook.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Facebook sx={{ fontSize: 28 }}/> </Link>
-            <Link href="https://twitter.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Twitter sx={{ fontSize: 28 }}/> </Link>
+            <Link href="https://www.instagram.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Instagram sx={{ fontSize: 28 }} />  </Link>
+            <Link href="https://www.facebook.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Facebook sx={{ fontSize: 28 }} /> </Link>
+            <Link href="https://twitter.com" color="inherit" style={{ marginRight: '10px', textDecoration: 'none' }}><Twitter sx={{ fontSize: 28 }} /> </Link>
           </Box>
         </Grid>
       </Grid>

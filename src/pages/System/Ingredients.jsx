@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, Button, Modal, Box, TextField } from '@mui/material';
-import VerticalNavbar from "../components/VerticalNavbar"
+import VerticalNavbar from "../../components/VerticalNavbar"
 
 const Ingredients = () => {
     const [ingredients, setIngredients] = useState([]);
@@ -41,47 +41,49 @@ const Ingredients = () => {
     return (
         <>
             <VerticalNavbar />
-            <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
-                <b>Ingredientes</b>
-            </Typography>
-            <Button
-                variant="contained"
-                color="error" // Red color
-                onClick={handleOpenModal}
-                sx={{ position: 'absolute', top: 60, left: 225, zIndex: 9999 }}
-            >
-                Añadir nuevo ingrediente
-            </Button>
-            <Grid alignItems="center" sx={{ position: 'absolute', top: 120, left: 225 }} >
-                <Grid item xs={12} sm={8} md={6} lg={4}>
-                    <Card sx={{ minWidth: 1250, width: '100%' }}>
-                        <CardContent>
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>ID</TableCell>
-                                            <TableCell>Nombre</TableCell>
-                                            <TableCell align="center">Existencias</TableCell>
-                                            <TableCell align="center">Precio</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {ingredients.map((ingredient) => (
-                                            <TableRow key={ingredient._id}>
-                                                <TableCell>{ingredient._id}</TableCell>
-                                                <TableCell>{ingredient.name}</TableCell>
-                                                <TableCell align="center">{ingredient.quantity}</TableCell>
-                                                <TableCell align="center">{ingredient.price}</TableCell>
+            <Box sx={{ position: 'relative', marginTop: 1 }}>
+                <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
+                    <b>Ingredientes</b>
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error" // Red color
+                    onClick={handleOpenModal}
+                    sx={{ position: 'absolute', top: 60, left: 225, zIndex: 9999 }}
+                >
+                    Añadir nuevo ingrediente
+                </Button>
+                <Grid alignItems="center" sx={{ position: 'absolute', top: 120, left: 225 }} >
+                    <Grid item xs={12} sm={8} md={6} lg={4}>
+                        <Card sx={{ minWidth: 1250, width: '100%' }}>
+                            <CardContent>
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>ID</TableCell>
+                                                <TableCell>Nombre</TableCell>
+                                                <TableCell align="center">Existencias</TableCell>
+                                                <TableCell align="center">Precio</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </CardContent>
-                    </Card>
+                                        </TableHead>
+                                        <TableBody>
+                                            {ingredients.map((ingredient) => (
+                                                <TableRow key={ingredient._id}>
+                                                    <TableCell>{ingredient._id}</TableCell>
+                                                    <TableCell>{ingredient.name}</TableCell>
+                                                    <TableCell align="center">{ingredient.quantity}</TableCell>
+                                                    <TableCell align="center">{ingredient.price}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Box>
             <Modal
                 open={openModal}
                 onClose={handleCloseModal}

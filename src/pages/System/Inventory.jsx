@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Button, TextField, Modal,Grid } from '@mui/material';
-import VerticalNavbar from "../components/VerticalNavbar";
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Card, CardContent, Button, TextField, Modal, Grid } from '@mui/material';
+import VerticalNavbar from "../../components/VerticalNavbar";
 import axios from 'axios';
 
 const Inventory = () => {
@@ -73,46 +73,46 @@ const Inventory = () => {
   return (
     <>
       <VerticalNavbar />
-      <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
-        <b>Inventario de Productos</b>
-      </Typography>
-      
-      <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
-        <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Card sx={{ minWidth: 1250, width: '100%' }}>
-          <CardContent>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell align="right">Existencias</TableCell>
-                    <TableCell align="right">Precio</TableCell>
-                    <TableCell align="center">Acciones</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {products.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell>{product.id}</TableCell>
-                      <TableCell>{product.title}</TableCell>
-                      <TableCell align="right">{product.quantity}</TableCell>
-                      <TableCell align="right">{product.price}</TableCell>
-                      <TableCell align="center">
-                        <Button sx={{marginRight:1}} variant="outlined" color="error" onClick={() => handleDelete(product.id)}>Eliminar</Button>
-                        <Button variant="outlined" color="primary" onClick={() => handleEdit(product.id, product.title, product.quantity, product.price)}>Editar</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
+      <Box sx={{ position: 'relative', marginTop: 2 }}>
+        <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
+          <b>Inventario de Productos</b>
+        </Typography>
+        <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
+          <Grid item xs={12} sm={8} md={6} lg={4}>
+            <Card sx={{ minWidth: 1250, width: '100%' }}>
+              <CardContent>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Nombre</TableCell>
+                        <TableCell align="right">Existencias</TableCell>
+                        <TableCell align="right">Precio</TableCell>
+                        <TableCell align="center">Acciones</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {products.map((product) => (
+                        <TableRow key={product.id}>
+                          <TableCell>{product.id}</TableCell>
+                          <TableCell>{product.title}</TableCell>
+                          <TableCell align="right">{product.quantity}</TableCell>
+                          <TableCell align="right">{product.price}</TableCell>
+                          <TableCell align="center">
+                            <Button sx={{ marginRight: 1 }} variant="contained" color="error" onClick={() => handleDelete(product.id)}>Eliminar</Button>
+                            <Button variant="contained" color="primary" onClick={() => handleEdit(product.id, product.title, product.quantity, product.price)}>Editar</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-
+      </Box>
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -122,14 +122,13 @@ const Inventory = () => {
         <Box
           sx={{
             position: 'absolute',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
@@ -164,7 +163,7 @@ const Inventory = () => {
             margin="normal"
             required
           />
-          <Button sx={{marginRight:2}} variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
+          <Button sx={{ marginRight: 2 }} variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
           <Button variant="contained" color="error" onClick={handleCloseModal}>Cancelar</Button>
         </Box>
       </Modal>

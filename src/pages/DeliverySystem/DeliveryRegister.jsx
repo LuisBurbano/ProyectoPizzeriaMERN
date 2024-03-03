@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from "../components/Footer"
+import Navbar from '../../components/Navbar';
+import Footer from "../../components/Footer"
 
-const Register = () => {
+const DeliveryRegister = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -75,18 +75,18 @@ const Register = () => {
     return (
         <>
         <Navbar/>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: '', height: '90vh' ,margin: '20px'}}>
-            <Grid container style={{ width: '70%', maxWidth: '850px', backgroundColor: '#ffffff', borderRadius: '10px', padding: '0px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: '', height: '73vh' ,margin: '20px'}}>
+            <Grid container style={{ width: '70%', maxWidth: '850px', backgroundColor: '#ffffff', borderRadius: '10px', padding: '0px'}}>
                 {/* Primera mitad para la imagen */}
                 <Grid item xs={12} sm={6}>
                     {/* Aquí puedes colocar tu componente de imagen */}
-                    <div style={{ backgroundImage: "url('../src/assets/loginyregister.jpg')", backgroundSize: 'cover', height: '100%' }}></div>
+                    <div style={{ backgroundImage: "url('../src/assets/Group 6.png')", backgroundSize: '425px', height: '100%' }}></div>
                 </Grid>
                 {/* Segunda mitad para el formulario de registro */}
                 <Grid item xs={12} sm={6} container justifyContent="center" alignItems="center" >
                     <form onSubmit={handleSubmit} style={{ width: '70%' }}>
                         <Typography variant="h4" gutterBottom align="center" >
-                            Registrarse
+                            Registro repartidor
                         </Typography>
                         {error && <Typography variant="body2" color="error" align="center">{error}</Typography>}
 
@@ -118,15 +118,6 @@ const Register = () => {
                             margin="normal"
                         />
                         <TextField
-                            type="text"
-                            label="Dirección"
-                            variant="outlined"
-                            value={address}
-                            onChange={handleAddressChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
                             type="tel"
                             label="Celular"
                             variant="outlined"
@@ -151,7 +142,7 @@ const Register = () => {
                         </Button>
                         <Typography variant="body2" align="center" style={{ marginTop: '10px' }}>
                             ¿Ya tienes una cuenta? {' '}
-                            <Link to="/login" style={{ textDecoration: 'none' }}>
+                            <Link to="/delivery/login" style={{ textDecoration: 'none' }}>
                                 Iniciar sesión
                             </Link>
                         </Typography>
@@ -164,4 +155,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default DeliveryRegister;

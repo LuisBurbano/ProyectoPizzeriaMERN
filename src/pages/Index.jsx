@@ -1,4 +1,4 @@
-
+import { useEffect, useState } from 'react';
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import miImagen from "../assets/banner.png";
@@ -7,20 +7,77 @@ import MenuCard from "../components/MenuCard";
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@mui/material';
 import { Typography, Box, Card } from '@mui/material';
-
+import axios from 'axios';
 const Index = () => {
 
-    const promocionesMenus = [
-        { id: 1, title: 'Titulo', description: 'Descripción', price: 10 },
-        { id: 2, title: 'Otro título', description: 'Otra descripción', price: 20 },
-        // Añade más objetos según sea necesario
-    ];
+    const [menus, setMenus] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const [selectedMenu, setSelectedMenu] = useState(null);
+    const [customerName, setCustomerName] = useState('');
+    const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [cantidad, setCantidad] = useState(1);
+    const [cedula, setCedula] = useState('');
+    const [instrucciones, setInstrucciones] = useState('');
+    const [contacto, setContacto] = useState('');
 
-    // Función dummy para manejar el clic de compra
-    const handleBuyClick = (menu) => {
-        console.log('Comprar', menu.title);
+    useEffect(() => {
+        const fetchMenus = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/menu');
+                setMenus(response.data);
+            } catch (error) {
+                console.error('Error fetching menus:', error);
+            }
+        };
+
+        fetchMenus();
+    }, []);
+
+    // Filtrar los menús por categoría
+    const favoritosMenus = menus.filter(menu => menu.category === "Favoritos");
+    const promocionesMenus = menus.filter(menu => menu.category === "Promociones");
+    const especialesMenus = menus.filter(menu => menu.category === "Especiales");
+
+    const handleOpenModal = (menu) => {
+        setSelectedMenu(menu);
+        setOpenModal(true);
     };
 
+    const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMenu(null);
+        setCustomerName('');
+        setDeliveryAddress('');
+    };
+
+    const handleBuyClick = (menu) => {
+        handleOpenModal(menu);
+    };
+
+    const handleConfirmPurchase = async () => {
+        try {
+            const currentDate = new Date().toISOString();
+            const total = selectedMenu.price * cantidad;
+            // Aquí puedes enviar los datos del cliente a tu base de datos
+            // Por ejemplo, usando axios para hacer una solicitud POST
+            const response = await axios.post('http://localhost:3000/compras', {
+                cedula: cedula,
+                customerName: customerName,
+                menuId: selectedMenu.id,
+                menuTitle: selectedMenu.title,
+                deliveryAddress: deliveryAddress,
+                purchaseDate: currentDate,
+                cantidad: cantidad,
+                price: selectedMenu.price,
+                total: total,
+                instrucciones: instrucciones
+            });
+            console.log('Compra realizada con éxito:', response.data);
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error al realizar la compra:', error);
+        }
+    };
 
     return (
         <>

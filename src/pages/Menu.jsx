@@ -119,15 +119,21 @@ const Index = () => {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
             >
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px' }}>
-                    <h2 id="modal-title">Confirmar compra</h2>
-                    <p>{selectedMenu && `¿Estás seguro que deseas comprar ${selectedMenu.title}?`}</p>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', maxWidth: '400px', width: '100%' }}>
+                    <Typography variant="h4" gutterBottom>
+                        <h2 id="modal-title" style={{ marginBottom: '20px', textAlign: 'center', fontSize: '1.5rem' }}>Confirmar compra</h2>
+
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        <p style={{ marginBottom: '20px', textAlign: 'center' }}>{selectedMenu && `¿Estás seguro que deseas comprar ${selectedMenu.title}?`}</p>
+                    </Typography>
                     <TextField
                         label="Nombre del cliente"
                         variant="outlined"
                         fullWidth
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     <TextField
                         label="Cedula"
@@ -135,6 +141,7 @@ const Index = () => {
                         fullWidth
                         value={cedula}
                         onChange={(e) => setCedula(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     <TextField
                         label="Dirección de entrega"
@@ -142,6 +149,7 @@ const Index = () => {
                         fullWidth
                         value={deliveryAddress}
                         onChange={(e) => setDeliveryAddress(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     <TextField
                         label="Cantidad"
@@ -151,6 +159,7 @@ const Index = () => {
                         value={cantidad}
                         inputProps={{ min: 1 }}
                         onChange={(e) => setCantidad(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     <TextField
                         label="Numero de contacto"
@@ -159,6 +168,7 @@ const Index = () => {
                         type='number'
                         value={contacto}
                         onChange={(e) => setContacto(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     <TextField
                         label="Instrucciones de entrega"
@@ -166,12 +176,13 @@ const Index = () => {
                         fullWidth
                         value={instrucciones}
                         onChange={(e) => setInstrucciones(e.target.value)}
+                        style={{ marginBottom: '15px' }}
                     />
                     {selectedMenu && cantidad && (
-                        <Typography>Total: ${selectedMenu.price * cantidad}</Typography>
+                        <Typography style={{ marginBottom: '20px', fontSize: '1.2rem', fontWeight: 'bold' }}>Total: ${selectedMenu.price * cantidad}</Typography>
                     )}
 
-                    <Button variant="contained" color="primary" onClick={handleConfirmPurchase}>Confirmar compra</Button>
+                    <Button variant="contained" color='error' sx={{ width: '250px', height: '60px', borderRadius: 6, fontSize: '1rem', marginTop: '20px' }}>Confirmar compra</Button>
                 </div>
             </Modal>
         </>

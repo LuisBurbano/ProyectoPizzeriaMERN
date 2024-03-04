@@ -50,7 +50,7 @@ const DeliveryRegister = () => {
         };
     
         try {
-            const response = await fetch('http://localhost:3000/user', {
+            const response = await fetch('http://localhost:3000/deliverys', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

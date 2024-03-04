@@ -3,43 +3,41 @@ import VerticalNavbar from "../../components/VerticalNavbar";
 import { Typography, Grid, Box, Card, CardContent } from "@mui/material";
 import Stadistics from "../../components/Stadistics";
 
-
-
 const System = () => {
-
-
-
-
     const [ganancias, setGanancias] = useState(0);
     const [ordenes, setOrdenes] = useState(0);
-    const [productosSemana, setProductosSemana] = useState([]);
-    const [productosMes, setProductosMes] = useState([]);
-    const [productosAnio, setProductosAnio] = useState([]);
 
-    // Simulando obtener datos de ganancias, órdenes y productos vendidos del servidor
+    // Simulando obtener datos de las ventas del servidor
     useEffect(() => {
-        // Aquí podrías hacer llamadas a tu backend para obtener los datos reales
-        // Por ahora, vamos a simular datos estáticos
         const obtenerDatos = async () => {
-            // Simulando obtener ganancias del mes
-            const gananciasDelMes = 5000; // Supongamos que las ganancias del mes son $5000
-            setGanancias(gananciasDelMes);
+            try {
+                // Simular la obtención de datos del servidor
+                const response = await fetch('http://localhost:3000/compras');
+                const data = await response.json();
 
-            // Simulando obtener órdenes del mes
-            const ordenesDelMes = 100; // Supongamos que hay 100 órdenes en el mes
-            setOrdenes(ordenesDelMes);
+                // Obtener la fecha actual
+                const fechaActual = new Date();
 
-            // Simulando obtener productos vendidos de la semana
-            const productosSemanaDummy = ["Producto A", "Producto B", "Producto C"];
-            setProductosSemana(productosSemanaDummy);
+                // Filtrar las compras que ocurrieron en el mes actual
+                const comprasDelMes = data.filter(compra => {
+                    const fechaCompra = new Date(compra.purchaseDate);
+                    return fechaCompra.getMonth() === fechaActual.getMonth() && fechaCompra.getFullYear() === fechaActual.getFullYear();
+                });
 
-            // Simulando obtener productos vendidos del mes
-            const productosMesDummy = ["Producto D", "Producto E", "Producto F"];
-            setProductosMes(productosMesDummy);
+                // Calcular las ganancias y la cantidad de órdenes del mes
+                let gananciasMes = 0;
+                let ordenesMes = 0;
+                comprasDelMes.forEach(compra => {
+                    gananciasMes += parseFloat(compra.price) * parseInt(compra.cantidad);
+                    ordenesMes++;
+                });
 
-            // Simulando obtener productos vendidos del año
-            const productosAnioDummy = ["Producto G", "Producto H", "Producto I"];
-            setProductosAnio(productosAnioDummy);
+                // Establecer los estados con los valores calculados
+                setGanancias(gananciasMes);
+                setOrdenes(ordenesMes);
+            } catch (error) {
+                console.error('Error fetching sales data:', error);
+            }
         };
 
         obtenerDatos();
@@ -49,7 +47,7 @@ const System = () => {
         <>
             <VerticalNavbar />
             <Box sx={{ position: 'relative', marginTop: 2 }}>
-            <Typography variant="h5" color="white" gutterBottom sx={{ position: 'relative', top: 15, left: 225, zIndex: 9999 }}>
+                <Typography variant="h5" color="white" gutterBottom sx={{ position: 'relative', top: 15, left: 225, zIndex: 9999 }}>
                     <b>Sistema</b>
                 </Typography>
                 <Grid container spacing={1} style={{ position: 'relative', top: 40, left: 225}} >
@@ -57,7 +55,7 @@ const System = () => {
                         <Card variant="outlined" color="white" sx={{minWidth: 150, width: '100%', borderRadius: 5, color: 'white', backgroundColor: 'rgb(198, 40, 40)' }}>
                             <CardContent>
                                 <Typography >
-                                    <p>${ganancias}</p>
+                                    <p>${ganancias.toFixed(2)}</p>
                                     <p>Ganancias del Mes </p>
                                 </Typography>
                             </CardContent>
@@ -87,7 +85,5 @@ const System = () => {
         </>
     );
 };
-
-
 
 export default System;

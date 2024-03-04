@@ -6,7 +6,7 @@ import Favoritos from "../assets/Favoritos.png";
 import Promociones from "../assets/Promociones.png";
 import Especiales from "../assets/Especiales.png";
 import axios from 'axios';
-import { Button, Modal, TextField } from '@mui/material';
+import { Button, Modal, TextField, Typography } from '@mui/material';
 
 const Index = () => {
     const [menus, setMenus] = useState([]);
@@ -14,6 +14,10 @@ const Index = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const [customerName, setCustomerName] = useState('');
     const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [cantidad, setCantidad] = useState(1);
+    const [cedula, setCedula] = useState('');
+    const [instrucciones, setInstrucciones] = useState('');
+    const [contacto, setContacto] = useState('');
 
     useEffect(() => {
         const fetchMenus = async () => {
@@ -51,14 +55,21 @@ const Index = () => {
 
     const handleConfirmPurchase = async () => {
         try {
+            const currentDate = new Date().toISOString();
+            const total = selectedMenu.price * cantidad;
             // Aquí puedes enviar los datos del cliente a tu base de datos
             // Por ejemplo, usando axios para hacer una solicitud POST
             const response = await axios.post('http://localhost:3000/compras', {
+                cedula: cedula,
+                customerName: customerName,
                 menuId: selectedMenu.id,
                 menuTitle: selectedMenu.title,
+                deliveryAddress: deliveryAddress,
+                purchaseDate: currentDate,
+                cantidad: cantidad,
                 price: selectedMenu.price,
-                customerName: customerName,
-                deliveryAddress: deliveryAddress
+                total: total,
+                instrucciones: instrucciones
             });
             console.log('Compra realizada con éxito:', response.data);
             handleCloseModal();
@@ -119,12 +130,47 @@ const Index = () => {
                         onChange={(e) => setCustomerName(e.target.value)}
                     />
                     <TextField
+                        label="Cedula"
+                        variant="outlined"
+                        fullWidth
+                        value={cedula}
+                        onChange={(e) => setCedula(e.target.value)}
+                    />
+                    <TextField
                         label="Dirección de entrega"
                         variant="outlined"
                         fullWidth
                         value={deliveryAddress}
                         onChange={(e) => setDeliveryAddress(e.target.value)}
                     />
+                    <TextField
+                        label="Cantidad"
+                        variant="outlined"
+                        fullWidth
+                        type='number'
+                        value={cantidad}
+                        inputProps={{ min: 1 }}
+                        onChange={(e) => setCantidad(e.target.value)}
+                    />
+                    <TextField
+                        label="Numero de contacto"
+                        variant="outlined"
+                        fullWidth
+                        type='number'
+                        value={contacto}
+                        onChange={(e) => setContacto(e.target.value)}
+                    />
+                    <TextField
+                        label="Instrucciones de entrega"
+                        variant="outlined"
+                        fullWidth
+                        value={instrucciones}
+                        onChange={(e) => setInstrucciones(e.target.value)}
+                    />
+                    {selectedMenu && cantidad && (
+                        <Typography>Total: ${selectedMenu.price * cantidad}</Typography>
+                    )}
+
                     <Button variant="contained" color="primary" onClick={handleConfirmPurchase}>Confirmar compra</Button>
                 </div>
             </Modal>

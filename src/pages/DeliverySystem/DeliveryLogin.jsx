@@ -31,7 +31,7 @@ const DeliveryLogin = () => {
     const handleLogin = async () => {
       try {
         // Realizar una solicitud GET al servidor para obtener el usuario por correo electrónico
-        const response = await fetch(`http://localhost:3000/user/email/${email}`);
+        const response = await fetch(`http://localhost:3000/deliverys/email/${email}`);
         const userData = await response.json();
 
         // Verificar si se encontró un usuario y si la contraseña coincide

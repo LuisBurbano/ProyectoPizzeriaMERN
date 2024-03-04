@@ -72,11 +72,26 @@ const Index = () => {
                 instrucciones: instrucciones
             });
             console.log('Compra realizada con éxito:', response.data);
+
+            const responseDelivery = await axios.post('http://localhost:3000/entrega', {
+                customerName: customerName,
+                deliveryAddress: deliveryAddress,
+                contacto: contacto,
+                instrucciones: instrucciones,
+                estadoEntrega: 'Pendiente', // Valor por defecto
+                purchaseDate: currentDate,
+                menuTitle: selectedMenu.title,
+                price: selectedMenu.price,
+                cantidad: cantidad,
+                total: total
+            });
             handleCloseModal();
         } catch (error) {
             console.error('Error al realizar la compra:', error);
         }
     };
+
+    
 
     return (
         <>
@@ -182,7 +197,7 @@ const Index = () => {
                         <Typography style={{ marginBottom: '20px', fontSize: '1.2rem', fontWeight: 'bold' }}>Total: ${selectedMenu.price * cantidad}</Typography>
                     )}
 
-                    <Button variant="contained" color='error' sx={{ width: '250px', height: '60px', borderRadius: 6, fontSize: '1rem', marginTop: '20px' }}>Confirmar compra</Button>
+                    <Button variant="contained" color='error' sx={{ width: '250px', height: '60px', borderRadius: 6, fontSize: '1rem', marginTop: '20px' }} onClick={handleConfirmPurchase}>Confirmar compra</Button>
                 </div>
             </Modal>
         </>

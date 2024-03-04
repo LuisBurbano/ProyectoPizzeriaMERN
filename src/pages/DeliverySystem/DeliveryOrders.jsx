@@ -1,67 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, Button, Modal, Box, TextField } from '@mui/material';
+import { Card, CardContent, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, Button } from '@mui/material';
+import axios from 'axios';
 import DeliveryNavbar from '../../components/DeliveryNavbar';
 
 const DeliveryOrders = () => {
     const [pendingOrders, setPendingOrders] = useState([]);
     const [deliveredOrders, setDeliveredOrders] = useState([]);
-    const [openModal, setOpenModal] = useState(false); // State for modal visibility
-    const [newOrder, setNewOrder] = useState({ id: '', customerName: '', phoneNumber: '', totalPrice: '', address: '', status: 'Pending' }); // State for new order data
 
     useEffect(() => {
-        // Fetch pending orders from backend
-        const fetchPendingOrders = async () => {
-            // Simulating fetching data from backend
-            const samplePendingOrders = [
-                { id: 1, customerName: 'John Doe', phoneNumber: '123-456-7890', totalPrice: 50.99, address: '123 Main St, City, Country', status: 'Pending' },
-                { id: 2, customerName: 'Jane Smith', phoneNumber: '987-654-3210', totalPrice: 35.49, address: '456 Elm St, Town, Country', status: 'Pending' }
-            ];
-            setPendingOrders(samplePendingOrders);
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/entrega');
+                const allOrders = response.data;
+                
+                // Filtrar las órdenes pendientes
+                const pendingOrders = allOrders.filter(order => order.estadoEntrega === 'Pendiente');
+    
+                // Filtrar las órdenes entregadas
+                const deliveredOrders = allOrders.filter(order => order.estadoEntrega === 'Entregado');
+    
+                setPendingOrders(pendingOrders);
+                setDeliveredOrders(deliveredOrders);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
         };
-
-        // Fetch delivered orders from backend
-        const fetchDeliveredOrders = async () => {
-            // Simulating fetching data from backend
-            const sampleDeliveredOrders = [
-                { id: 3, customerName: 'Alice Johnson', phoneNumber: '555-555-5555', totalPrice: 75.25, address: '789 Oak St, Village, Country', status: 'Delivered' }
-            ];
-            setDeliveredOrders(sampleDeliveredOrders);
-        };
-
-        fetchPendingOrders();
-        fetchDeliveredOrders();
+    
+        fetchData();
     }, []);
-
-    const handleOpenModal = () => {
-        setOpenModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setOpenModal(false);
-    };
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setNewOrder({ ...newOrder, [name]: value });
-    };
-
-    const handleAcceptDelivery = (order) => {
-        // Move order to delivered orders
-        setDeliveredOrders([...deliveredOrders, { ...order , status: 'Pending' }]);
-        // Remove order from pending orders
-        setPendingOrders(pendingOrders.filter(item => item.id !== order.id));
-    };
-
-    const handleDeliveredOrder = (order) => {
-        // Eliminar la orden entregada de las órdenes entregadas
-        const updatedDeliveredOrders = deliveredOrders.filter(item => item.id !== order.id);
     
-        // Agregar la orden entregada con estado "Entregado"
-        const updatedOrder = { ...order, status: 'Delivered' };
-        const updatedOrders = [...updatedDeliveredOrders, updatedOrder];
-    
-        // Actualizar el estado de las órdenes entregadas
-        setDeliveredOrders(updatedOrders);
+    const handleAcceptDelivery = async (orderId) => {
+        try {
+            // Update the order status to "Entregado" on the server
+            await axios.put(`http://localhost:3000/entrega/${orderId}`, { estadoEntrega: 'Entregado' });
+            // Find the order in pendingOrders
+            const acceptedOrder = pendingOrders.find(order => order.id === orderId);
+            // Remove the order from pendingOrders and add it to deliveredOrders
+            const updatedPendingOrders = pendingOrders.filter(order => order.id !== orderId);
+            setPendingOrders(updatedPendingOrders);
+            setDeliveredOrders([...deliveredOrders, { ...acceptedOrder, estadoEntrega: 'Entregado' }]);
+        } catch (error) {
+            console.error('Error accepting delivery:', error);
+        }
     };
     
 
@@ -77,32 +57,30 @@ const DeliveryOrders = () => {
                     <Card sx={{ minWidth: 1250, width: '100%' }}>
                         <CardContent>
                             <Typography variant="h6" color="text.secondary" gutterBottom>
-                                Órdenes pendientes de aceptar
+                                Órdenes pendientes de entregar
                             </Typography>
                             <TableContainer component={Paper}>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Order ID</TableCell>
-                                            <TableCell>Customer Name</TableCell>
-                                            <TableCell>Phone Number</TableCell>
-                                            <TableCell>Total Price</TableCell>
-                                            <TableCell>Address</TableCell>
-                                            
+                                            <TableCell>Orden</TableCell>
+                                            <TableCell>Nombre Cliente</TableCell>
+                                            <TableCell>Contacto Cliente</TableCell>
+                                            <TableCell>Precio total</TableCell>
+                                            <TableCell>Direccion</TableCell>
                                             <TableCell>Action</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {pendingOrders.map((order) => (
                                             <TableRow key={order.id}>
-                                                <TableCell>{order.id}</TableCell>
+                                                <TableCell>{order.instrucciones}</TableCell>
                                                 <TableCell>{order.customerName}</TableCell>
-                                                <TableCell>{order.phoneNumber}</TableCell>
-                                                <TableCell>{order.totalPrice}</TableCell>
-                                                <TableCell>{order.address}</TableCell>
-                                                
+                                                <TableCell>{order.contacto}</TableCell>
+                                                <TableCell>{order.total}</TableCell>
+                                                <TableCell>{order.deliveryAddress}</TableCell>
                                                 <TableCell>
-                                                    <Button variant="contained" color='error' onClick={() => handleAcceptDelivery(order)}>Aceptar Entrega</Button>
+                                                    <Button variant="contained" color='error' onClick={() => handleAcceptDelivery(order.id)}>Aceptar Entrega</Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
@@ -119,33 +97,29 @@ const DeliveryOrders = () => {
                     <Card sx={{ minWidth: 1250, width: '100%' }}>
                         <CardContent>
                             <Typography variant="h6" color="text.secondary" gutterBottom>
-                                Órdenes pendientes de entregar
+                                Órdenes entregadas
                             </Typography>
                             <TableContainer component={Paper}>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Order ID</TableCell>
-                                            <TableCell>Customer Name</TableCell>
-                                            <TableCell>Phone Number</TableCell>
-                                            <TableCell>Total Price</TableCell>
-                                            <TableCell>Address</TableCell>
-                                            <TableCell>Status</TableCell>
-
+                                            <TableCell>Orden</TableCell>
+                                            <TableCell>Nombre Cliente</TableCell>
+                                            <TableCell>Contacto Cliente</TableCell>
+                                            <TableCell>Precio total</TableCell>
+                                            <TableCell>Direccion</TableCell>
+                                            <TableCell>Estado</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {deliveredOrders.map((order) => (
                                             <TableRow key={order.id}>
-                                                <TableCell>{order.id}</TableCell>
+                                                <TableCell>{order.instrucciones}</TableCell>
                                                 <TableCell>{order.customerName}</TableCell>
-                                                <TableCell>{order.phoneNumber}</TableCell>
-                                                <TableCell>{order.totalPrice}</TableCell>
-                                                <TableCell>{order.address}</TableCell>
-        
-                                                <TableCell>
-                                                    {order.status === 'Delivered' ? "Entregado" : <Button variant="contained" color='primary' onClick={() => handleDeliveredOrder(order)}>Entregado</Button>}
-                                                </TableCell>
+                                                <TableCell>{order.contacto}</TableCell>
+                                                <TableCell>{order.total}</TableCell>
+                                                <TableCell>{order.deliveryAddress}</TableCell>
+                                                <TableCell>{order.estadoEntrega === 'Pendiente' ? "Pendiente" : "Entregado"}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

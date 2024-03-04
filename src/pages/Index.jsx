@@ -5,7 +5,7 @@ import miImagen from "../assets/banner.png";
 import Promociones from "../assets/Promociones.png";
 import MenuCard from "../components/MenuCard";
 import { Link } from 'react-router-dom';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Modal, TextField } from '@mui/material';
 import { Typography, Box, Card } from '@mui/material';
 import axios from 'axios';
 const Index = () => {
@@ -73,6 +73,19 @@ const Index = () => {
                 instrucciones: instrucciones
             });
             console.log('Compra realizada con éxito:', response.data);
+
+            const responseDelivery = await axios.post('http://localhost:3000/entrega', {
+                customerName: customerName,
+                deliveryAddress: deliveryAddress,
+                contacto: contacto,
+                instrucciones: instrucciones,
+                estadoEntrega: 'Pendiente', // Valor por defecto
+                purchaseDate: currentDate,
+                menuTitle: selectedMenu.title,
+                price: selectedMenu.price,
+                cantidad: cantidad,
+                total: total
+            });
             handleCloseModal();
         } catch (error) {
             console.error('Error al realizar la compra:', error);
@@ -142,7 +155,78 @@ const Index = () => {
             </Box>
 
             <Footer />
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', maxWidth: '400px', width: '100%' }}>
+                    <Typography variant="h4" gutterBottom>
+                        <h2 id="modal-title" style={{ marginBottom: '20px', textAlign: 'center', fontSize: '1.5rem' }}>Confirmar compra</h2>
 
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        <p style={{ marginBottom: '20px', textAlign: 'center' }}>{selectedMenu && `¿Estás seguro que deseas comprar ${selectedMenu.title}?`}</p>
+                    </Typography>
+                    <TextField
+                        label="Nombre del cliente"
+                        variant="outlined"
+                        fullWidth
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <TextField
+                        label="Cedula"
+                        variant="outlined"
+                        fullWidth
+                        value={cedula}
+                        onChange={(e) => setCedula(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <TextField
+                        label="Dirección de entrega"
+                        variant="outlined"
+                        fullWidth
+                        value={deliveryAddress}
+                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <TextField
+                        label="Cantidad"
+                        variant="outlined"
+                        fullWidth
+                        type='number'
+                        value={cantidad}
+                        inputProps={{ min: 1 }}
+                        onChange={(e) => setCantidad(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <TextField
+                        label="Numero de contacto"
+                        variant="outlined"
+                        fullWidth
+                        type='number'
+                        value={contacto}
+                        onChange={(e) => setContacto(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    <TextField
+                        label="Instrucciones de entrega"
+                        variant="outlined"
+                        fullWidth
+                        value={instrucciones}
+                        onChange={(e) => setInstrucciones(e.target.value)}
+                        style={{ marginBottom: '15px' }}
+                    />
+                    {selectedMenu && cantidad && (
+                        <Typography style={{ marginBottom: '20px', fontSize: '1.2rem', fontWeight: 'bold' }}>Total: ${selectedMenu.price * cantidad}</Typography>
+                    )}
+
+                    <Button variant="contained" color='error' sx={{ width: '250px', height: '60px', borderRadius: 6, fontSize: '1rem', marginTop: '20px' }} onClick={handleConfirmPurchase}>Confirmar compra</Button>
+                </div>
+            </Modal>
         </>
     )
 }

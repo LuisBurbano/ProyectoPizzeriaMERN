@@ -46,8 +46,8 @@ const NewProduct = () => {
       if (ingredient) {
         const newIngredient = {
           id: ingredient.id,
-          name: ingredient.name,
-          quantity: selectedQuantity
+          nombre: ingredient.nombre,
+          existencias: selectedQuantity
         };
         setIngredients([...ingredients, newIngredient]);
         setSelectedIngredient('');
@@ -71,29 +71,29 @@ const NewProduct = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = {
+    
+    const productData = {
       title,
       description,
       price,
       quantity,
       ingredients
     };
-
+  
     try {
-      const formData = new FormData();
-      formData.append('image', image);
-      formData.append('data', JSON.stringify(data));
-
-      const response = await fetch('http://localhost:3000/productos', {
+      const response = await fetch('http://localhost:3000/product', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productData)
       });
-
+  
       if (response.ok) {
-        console.log('Datos de registro enviados correctamente');
-        // Aquí puedes agregar cualquier lógica adicional después de enviar los datos
+        console.log('Producto guardado correctamente');
+        // Aquí puedes agregar cualquier lógica adicional después de guardar el producto
       } else {
-        console.error('Error al enviar los datos:', response.statusText);
+        console.error('Error al guardar el producto:', response.statusText);
         // Manejo de errores si es necesario
       }
     } catch (error) {
@@ -101,6 +101,7 @@ const NewProduct = () => {
       // Manejo de errores si es necesario
     }
   };
+  
 
   return (
     <>
@@ -219,7 +220,7 @@ const NewProduct = () => {
                     onChange={(e) => setSelectedIngredient(e.target.value)}
                   >
                     {ingredientList.map((ingredient) => (
-                      <MenuItem key={ingredient.id} value={ingredient.id}>{ingredient.name}</MenuItem>
+                      <MenuItem key={ingredient.id} value={ingredient.id}>{ingredient.nombre}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -253,8 +254,8 @@ const NewProduct = () => {
                 <TableBody>
                   {ingredients.map((ingredient) => (
                     <TableRow key={ingredient.id}>
-                      <TableCell component="th" scope="row">{ingredient.name}</TableCell>
-                      <TableCell align="right">{ingredient.quantity}</TableCell>
+                      <TableCell component="th" scope="row">{ingredient.nombre}</TableCell>
+                      <TableCell align="right">{ingredient.existencias}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

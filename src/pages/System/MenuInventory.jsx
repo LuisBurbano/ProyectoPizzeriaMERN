@@ -28,15 +28,15 @@ const MenuInventory = () => {
     try {
       await axios.delete(`http://localhost:3000/menu/${menuId}`);
       setMenus(menus.filter(menu => menu.id !== menuId));
-      console.log(`Menu with ID ${menuId} deleted successfully`);
+      console.log(`Menú con ID ${menuId} eliminado correctamente`);
     } catch (error) {
-      console.error(`Error deleting menu with ID ${menuId}:`, error);
+      console.error(`Error al eliminar menú con ID ${menuId}:`, error);
     }
   };
 
-  const handleEdit = (menuId, name, description, price) => {
-    setEditMenuId(menuId);
-    setEditMenuName(name);
+  const handleEdit = (id, title, description, price) => {
+    setEditMenuId(id);
+    setEditMenuName(title);
     setEditMenuDescription(description);
     setEditMenuPrice(price);
     setOpenModal(true);
@@ -53,20 +53,20 @@ const MenuInventory = () => {
   const handleSaveEdit = async () => {
     try {
       await axios.put(`http://localhost:3000/menu/${editMenuId}`, {
-        name: editMenuName,
+        title: editMenuName,
         description: editMenuDescription,
         price: editMenuPrice
       });
       // Actualizar el menú en la lista
       setMenus(menus.map(menu =>
         menu.id === editMenuId
-          ? { ...menu, name: editMenuName, description: editMenuDescription, price: editMenuPrice }
+          ? { ...menu, title: editMenuName, description: editMenuDescription, price: editMenuPrice }
           : menu
       ));
-      console.log(`Menu with ID ${editMenuId} edited successfully`);
+      console.log(`Menú con ID ${editMenuId} editado correctamente`);
       handleCloseModal();
     } catch (error) {
-      console.error(`Error editing menu with ID ${editMenuId}:`, error);
+      console.error(`Error al editar menú con ID ${editMenuId}:`, error);
     }
   };
 
@@ -74,44 +74,44 @@ const MenuInventory = () => {
     <>
       <VerticalNavbar />
       <Box sx={{ position: 'relative', marginTop: 2 }}>
-      <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
-        <b>Inventario de Menús</b>
-      </Typography>
-      <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
-        <Grid item xs={12} sm={8} md={6} lg={4}>
-          <Card sx={{ minWidth: 1250, width: '100%' }}>
-          <CardContent>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell>Descripción</TableCell>
-                    <TableCell align="right">Precio</TableCell>
-                    <TableCell align="center">Acciones</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {menus.map((menu) => (
-                    <TableRow key={menu.id}>
-                      <TableCell>{menu.id}</TableCell>
-                      <TableCell>{menu.name}</TableCell>
-                      <TableCell>{menu.description}</TableCell>
-                      <TableCell align="right">{menu.price}</TableCell>
-                      <TableCell align="center">
-                        <Button sx={{marginRight:1}} variant="contained" color="error" onClick={() => handleDelete(menu.id)}>Eliminar</Button>
-                        <Button variant="contained" color="primary" onClick={() => handleEdit(menu.id, menu.name, menu.description, menu.price)}>Editar</Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
+        <Typography variant="h5" color="white" gutterBottom sx={{ position: 'absolute', top: 15, left: 225, zIndex: 9999 }}>
+          <b>Inventario de Menús</b>
+        </Typography>
+        <Grid alignItems="center" style={{ position: 'absolute', top: 90, left: 225 }} >
+          <Grid item xs={12} sm={8} md={6} lg={4}>
+            <Card sx={{ minWidth: 1250, width: '100%' }}>
+              <CardContent>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Nombre</TableCell>
+                        <TableCell>Categoría</TableCell>
+                        <TableCell>Descripción</TableCell>
+                        <TableCell align="right">Precio</TableCell>
+                        <TableCell align="center">Acciones</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {menus.map((menu) => (
+                        <TableRow key={menu.id}>
+                          <TableCell>{menu.title}</TableCell>
+                          <TableCell>{menu.category}</TableCell>
+                          <TableCell>{menu.description}</TableCell>
+                          <TableCell align="right">{menu.price}</TableCell>
+                          <TableCell align="center">
+                            <Button sx={{ marginRight: 1 }} variant="contained" color="error" onClick={() => handleDelete(menu.id)}>Eliminar</Button>
+                            <Button variant="contained" color="primary" onClick={() => handleEdit(menu.id, menu.title, menu.description, menu.price)}>Editar</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
       </Box>
       <Modal
         open={openModal}
@@ -163,7 +163,7 @@ const MenuInventory = () => {
             margin="normal"
             required
           />
-          <Button sx={{marginRight:2}} variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
+          <Button sx={{ marginRight: 2 }} variant="contained" color="primary" onClick={handleSaveEdit}>Guardar</Button>
           <Button variant="contained" color="error" onClick={handleCloseModal}>Cancelar</Button>
         </Box>
       </Modal>

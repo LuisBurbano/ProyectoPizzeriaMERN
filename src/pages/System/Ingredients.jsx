@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, Button, Modal, Box, TextField } from '@mui/material';
-import VerticalNavbar from "../../components/VerticalNavbar"
+import VerticalNavbar from "../../components/VerticalNavbar";
 
 const Ingredients = () => {
     const [ingredients, setIngredients] = useState([]);
-    const [openModal, setOpenModal] = useState(false); // State for modal visibility
-    const [newIngredient, setNewIngredient] = useState({ name: '', quantity: '', price: '' }); // State for new ingredient data
+    const [openModal, setOpenModal] = useState(false); 
+    const [newIngredient, setNewIngredient] = useState({ nombre: '', existencias: '', precio: '' }); 
 
     useEffect(() => {
-        const sampleIngredients = [
-            { _id: 1, name: 'Ingrediente 1', quantity: 100, price: 2.99 },
-            { _id: 2, name: 'Ingrediente 2', quantity: 50, price: 5.49 },
-            { _id: 3, name: 'Ingrediente 3', quantity: 200, price: 3.79 }
-        ];
-        setIngredients(sampleIngredients);
+        const fetchIngredients = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/ingredientes/`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setIngredients(data);
+            } catch (error) {
+                console.error('Error fetching ingredients:', error);
+            }
+        };
+        fetchIngredients();
     }, []);
 
     const handleOpenModal = () => {
@@ -29,13 +36,25 @@ const Ingredients = () => {
         setNewIngredient({ ...newIngredient, [name]: value });
     };
 
-    const handleAddIngredient = () => {
-        // Add validation here if necessary
-        const newId = ingredients.length + 1;
-        const newIngredientWithId = { _id: newId, ...newIngredient };
-        setIngredients([...ingredients, newIngredientWithId]);
-        setNewIngredient({ name: '', quantity: '', price: '' }); // Reset new ingredient state
-        handleCloseModal();
+    const handleAddIngredient = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/ingredientes/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newIngredient),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to add new ingredient');
+            }
+            const data = await response.json();
+            setIngredients([...ingredients, data]);
+            setNewIngredient({ nombre: '', existencias: '', precio: '' });
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error adding ingredient:', error);
+        }
     };
 
     return (
@@ -47,7 +66,7 @@ const Ingredients = () => {
                 </Typography>
                 <Button
                     variant="contained"
-                    color="error" // Red color
+                    color="error" 
                     onClick={handleOpenModal}
                     sx={{ position: 'absolute', top: 60, left: 225, zIndex: 9999 }}
                 >
@@ -69,11 +88,11 @@ const Ingredients = () => {
                                         </TableHead>
                                         <TableBody>
                                             {ingredients.map((ingredient) => (
-                                                <TableRow key={ingredient._id}>
-                                                    <TableCell>{ingredient._id}</TableCell>
-                                                    <TableCell>{ingredient.name}</TableCell>
-                                                    <TableCell align="center">{ingredient.quantity}</TableCell>
-                                                    <TableCell align="center">{ingredient.price}</TableCell>
+                                                <TableRow key={ingredient.id}>
+                                                    <TableCell>{ingredient.id}</TableCell>
+                                                    <TableCell>{ingredient.nombre}</TableCell>
+                                                    <TableCell align="center">{ingredient.existencias}</TableCell>
+                                                    <TableCell align="center">{ingredient.precio}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -107,8 +126,8 @@ const Ingredients = () => {
                         margin="normal"
                         fullWidth
                         label="Nombre"
-                        name="name"
-                        value={newIngredient.name}
+                        name="nombre"
+                        value={newIngredient.nombre}
                         onChange={handleInputChange}
                     />
                     <TextField
@@ -116,8 +135,8 @@ const Ingredients = () => {
                         fullWidth
                         type="number"
                         label="Existencias"
-                        name="quantity"
-                        value={newIngredient.quantity}
+                        name="existencias"
+                        value={newIngredient.existencias}
                         onChange={handleInputChange}
                     />
                     <TextField
@@ -125,8 +144,8 @@ const Ingredients = () => {
                         fullWidth
                         type="number"
                         label="Precio"
-                        name="price"
-                        value={newIngredient.price}
+                        name="precio"
+                        value={newIngredient.precio}
                         onChange={handleInputChange}
                     />
                     <Box sx={{ marginTop: 2 }}>
